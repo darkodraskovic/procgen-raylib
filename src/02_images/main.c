@@ -1,7 +1,7 @@
 #include <stdint.h>
 #include "raylib.h"
 
-#include "filters.c"
+#include "filters.h"
 
 int main(void)
 {
@@ -20,7 +20,13 @@ int main(void)
     
     Image dstImg = GenImageColor(srcImg.width, srcImg.height, BLACK);
     ImageFormat(&dstImg, format);
-    
+
+    float n = 9;
+    float mat[][3] = {
+        {-n/9, -n/9, -n/9},
+        {-n/9, n, -n/9},
+        {-n/9, -n/9, -n/9}};
+
     uint32_t* srcData =srcImg.data;
     uint32_t* dstData =dstImg.data;
     for (int y = 0; y < srcImg.height; y++) {
@@ -32,6 +38,8 @@ int main(void)
             /* *dstCol = invert(*dstCol); */
             /* *dstCol = grayscale(*dstCol); */
             /* *dstCol = treshold(*dstCol, 128); */
+            *dstCol = convolution(srcData, srcImg.width, srcImg.height,
+                                  3, mat, x, y);
             
             /* uint8_t* r = (uint8_t*)(data + vOffset + x); */
             /* uint8_t* g = r+1; */
@@ -40,15 +48,15 @@ int main(void)
         }
     }
 
-    for (int y = 0; y < srcImg.height; y++) {
-        int vOffset = y * srcImg.width;
-        for (int x = 0; x < srcImg.width-1; x++) {
-            uint32_t* srcCol = srcData + vOffset + x;
-            uint32_t* dstCol = dstData + vOffset + x;
-            *dstCol = *srcCol;
-            *dstCol = detectEdgeR(*dstCol, *(srcCol+1), 2);
-        }
-    }
+    /* for (int y = 0; y < srcImg.height; y++) { */
+    /*     int vOffset = y * srcImg.width; */
+    /*     for (int x = 0; x < srcImg.width-1; x++) { */
+    /*         uint32_t* srcCol = srcData + vOffset + x; */
+    /*         uint32_t* dstCol = dstData + vOffset + x; */
+    /*         *dstCol = *srcCol; */
+    /*         *dstCol = edge(*dstCol, *(srcCol+1), 2); */
+    /*     } */
+    /* } */
 
     Texture srcTex = LoadTextureFromImage(srcImg);
     Texture dstTex = LoadTextureFromImage(dstImg);

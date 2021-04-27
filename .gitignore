@@ -1,4 +1,4 @@
-bin/
+bin/[0-9]*
 build/
 compile_commands.json
 .clangd

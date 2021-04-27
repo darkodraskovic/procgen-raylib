@@ -14,3 +14,6 @@ function(add_target TARGET)
 endfunction()
 
 add_target(00_hello_world)
+add_target(01_fractals)
+add_target(02_images)
+add_target(03_tcod)
