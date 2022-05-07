@@ -1,8 +1,15 @@
-#include "Hooks.h"
+#include "chunky/hooks.h"
 
-#include "Display.h"
+#include "chunky/display.h"
+#include "roamlib/player.h"
 
-void Init(){};
+Entity* player;
+
+void Init() {
+  player = CreatePlayer();
+  player->position.x = 32;
+  player->position.y = 12;
+};
 void Update(){};
 void PostUpdate(){};
 void Draw() {
