@@ -6,7 +6,7 @@ set(CMAKE_C_STANDARD 11)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-add_subdirectory(lib/Chunky)
+add_subdirectory(lib/chunky)
 
 function(add_target TARGET INCLUDES LIBS)
   file(GLOB APP_C "src/${TARGET}/*.c")
@@ -19,4 +19,4 @@ add_target(00_hello_world "" "")
 add_target(01_fractals "" "")
 add_target(02_images "" "")
 add_target(03_tcod "" tcod)
-add_target(04_chunky lib/Chunky chunky)
+add_target(04_chunky lib/chunky chunky)

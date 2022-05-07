@@ -1,3 +1,3 @@
-[submodule "lib/Chunky"]
-	path = lib/Chunky
-	url = https://github.com/darkodraskovic/Chunky
+[submodule "lib/chunky"]
+	path = lib/chunky
+	url = https://github.com/darkodraskovic/chunky
