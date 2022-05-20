@@ -3,3 +3,7 @@ build/
 compile_commands.json
 .clangd
 .cache
+bin/libtcod.dll
+bin/SDL2.dll
+lib/
+ninja/

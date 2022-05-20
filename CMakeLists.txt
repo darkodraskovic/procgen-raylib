@@ -1,10 +1,25 @@
 cmake_minimum_required(VERSION 3.8)
-project (boilerplate)
+project (procgen2d)
 
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/bin")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_CURRENT_SOURCE_DIR}/bin")
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_CURRENT_SOURCE_DIR}/debug")
+
 set(CMAKE_C_STANDARD 11)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+set(TCOD tcod)
+if (WIN32)
+  include_directories(lib/ lib/raylib/include lib/libtcod/include)
+
+  link_directories(lib/raylib/lib lib/libtcod)
+  link_libraries(libtcod raylib)
+
+  set(warning_compiler_options /W3 /wd"4267" /wd"4305" /wd"4244")
+  add_compile_options(${warning_compiler_options} /MD /JMC)
+
+  set(TCOD libtcod)
+endif()
 
 add_subdirectory(lib/chunky)
 add_subdirectory(lib/roamlib)
@@ -13,11 +28,28 @@ function(add_target TARGET INCLUDES LIBS)
   file(GLOB APP_C "src/${TARGET}/*.c")
   add_executable(${TARGET} ${APP_C})
   target_include_directories(${TARGET} PUBLIC "${TARGET}/" ${INCLUDES})
-  target_link_libraries(${TARGET} m raylib dl pthread ${LIBS})
+  
+  if (WIN32)
+    target_link_libraries(${TARGET} raylib opengl32 winmm ${LIBS})
+  else()
+    target_link_libraries(${TARGET} m raylib dl pthread ${LIBS})
+  endif()
+  
 endfunction()
 
 add_target(00_hello_world "" "")
 add_target(01_fractals "" "")
 add_target(02_images "" "")
-add_target(03_tcod "" tcod)
-add_target(04_chunky_roam "lib/" "chunky;roamlib")
+add_target(03_tcod "" ${TCOD})
+add_target(04_chunky "lib/" "chunky;roamlib")
+
+add_library(mesh STATIC
+  src/05_proc_mesh_gen/mesh/scene.c
+  src/05_proc_mesh_gen/mesh/model.c
+  )
+target_include_directories(mesh PUBLIC
+  "src/05_proc_mesh_gen/mesh"
+  )
+target_link_libraries(mesh raylib opengl32 winmm)
+
+add_target(05_proc_mesh_gen "lib/" "chunky;${TCOD};mesh")

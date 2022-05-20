@@ -21,8 +21,8 @@ int main(void) {
   SetTargetFPS(30);  // Set our game to run at 60 frames-per-second
 
   TCOD_heightmap_t* heightmap = TCOD_heightmap_new(width, height);
-  TCOD_random_t detRnd = TCOD_random_new_from_seed(TCOD_RNG_CMWC, 0xdeadbeef);
-  TCOD_random_t prevDetRnd = TCOD_random_save(detRnd);
+  TCOD_Random* detRnd = TCOD_random_new_from_seed(TCOD_RNG_CMWC, 0xdeadbeef);
+  TCOD_Random* prevDetRnd = TCOD_random_save(detRnd);
 
   /* TCOD_heightmap_add_hill(heightmap, width/4., height/4., 8, -8); */
   /* TCOD_heightmap_add_hill(heightmap, width/3., height/3., 12, 6); */
@@ -35,8 +35,7 @@ int main(void) {
   /* ImageFlipVertical(&image); */
 
   Texture2D texture = LoadTextureFromImage(image);
-  RenderTexture2D target =
-      LoadRenderTexture(width * pixelSize, height * pixelSize);
+  RenderTexture2D target = LoadRenderTexture(width * pixelSize, height * pixelSize);
   //--------------------------------------------------------------------------------------
 
   float erosionCoef = .5;
@@ -55,8 +54,8 @@ int main(void) {
     /* TCOD_random_restore(detRnd, prevDetRnd); */
     TCOD_heightmap_clear(heightmap);
     TCOD_heightmap_add_hill(heightmap, width / 2., height / 2., width / 3., 8);
-    TCOD_heightmap_rain_erosion(heightmap, width * height, erosionCoef,
-                                sedimentationCoef, detRnd);
+    TCOD_heightmap_rain_erosion(heightmap, width * height, erosionCoef, sedimentationCoef,
+                                detRnd);
     TCOD_heightmap_normalize(heightmap, 0, 255);
 
     for (int x = 0; x < width; ++x) {
