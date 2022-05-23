@@ -32,6 +32,12 @@ Create `bin` directory in the root directory. `cd` to `bin/` and run
 
 to run the program.
 
+### Run from chunky or roamlib
+
+```
+cd /Users/darko/Development/procgen2d/ && bash.exe build.sh -t 05_mesh
+```
+
 ## clangd
 
 "clangd understands your C++ code and adds smart features to your editor: code completion, compile errors, go-to-definition and more."

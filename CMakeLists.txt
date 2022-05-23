@@ -41,15 +41,5 @@ add_target(00_hello_world "" "")
 add_target(01_fractals "" "")
 add_target(02_images "" "")
 add_target(03_tcod "" ${TCOD})
-add_target(04_chunky "lib/" "chunky;roamlib")
-
-add_library(mesh STATIC
-  src/05_proc_mesh_gen/mesh/scene.c
-  src/05_proc_mesh_gen/mesh/model.c
-  )
-target_include_directories(mesh PUBLIC
-  "src/05_proc_mesh_gen/mesh"
-  )
-target_link_libraries(mesh raylib opengl32 winmm)
-
-add_target(05_proc_mesh_gen "lib/" "chunky;${TCOD};mesh")
+add_target(04_roamlib "lib/" "chunky;roamlib")
+add_target(05_mesh "lib/" "chunky;${TCOD}")

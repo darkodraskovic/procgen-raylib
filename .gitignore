@@ -7,3 +7,4 @@ bin/libtcod.dll
 bin/SDL2.dll
 lib/
 ninja/
+debug/

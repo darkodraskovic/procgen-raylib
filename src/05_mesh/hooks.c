@@ -1,10 +1,10 @@
 #include "chunky/hooks.h"
 
 #include "chunky/display.h"
-#include "mesh/model.h"
-#include "mesh/scene.h"
+#include "chunky/model.h"
+#include "chunky/scene.h"
 
-static Mesh GenMeshCustom(int triangleCount);
+static Mesh GenMeshCustom(int vertexCount);
 Camera3D camera;
 Vector3 cubePosition = {0.0f, 0.0f, 0.0f};
 
@@ -15,7 +15,7 @@ void Init() {
   camera = InitCamera3D();
   SetCameraMode(camera, CAMERA_ORBITAL);  // Set a first person camera mode
 
-  model = LoadModelFromMesh(GenMeshCustom(1));
+  model = LoadModelFromMesh(GenMeshCustom(3));
 };
 
 void Update() {
@@ -41,8 +41,8 @@ void PostDraw(){};
 void Close(){};
 
 // Generate a simple triangle mesh from code
-static Mesh GenMeshCustom(int triangleCount) {
-  Mesh mesh = MeshAlloc(1);
+static Mesh GenMeshCustom(int vertexCount) {
+  Mesh mesh = MeshAlloc(vertexCount, 0);
 
   // Vertex at (0, 0, 0)
   mesh.vertices[0] = 0;
