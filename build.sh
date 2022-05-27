@@ -9,6 +9,12 @@ NINJA=false
 
 SLN=procgen2d.sln
 
+if [ "$OSTYPE" = "msys" ]; then
+    ROOT_DIR=c:/Users/darko/Development/procgen2d/
+else
+    ROOT_DIR=/home/darko/Development/procgen2d/
+fi
+
 echo "ROOT_DIR: $ROOT_DIR"
 
 while getopts "cnt:" option; do
@@ -62,5 +68,5 @@ fi
 if [ $TARGET != $SLN ] && [ $TARGET != all ]; then
     cd ${ROOT_DIR}/bin
     echo "EXECUTE: $TARGET"
-    ./$EXE_NAME
+    $EXE_NAME
 fi
