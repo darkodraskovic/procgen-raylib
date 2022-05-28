@@ -20,7 +20,11 @@ if (WIN32)
   link_libraries(libtcod raylib)
 
   set(warning_compiler_options /W3 /wd"4267" /wd"4305" /wd"4244")
-  add_compile_options(${warning_compiler_options} /MD /JMC)
+
+  # /Ox used for raygui.h
+  # /Od disables optimization to speed compilation.
+  # /Ob controls inline function expansion.
+  add_compile_options(${warning_compiler_options} /MD /Od /Ob0 /JMC)
 
   set(TCOD libtcod)
 endif()
@@ -46,4 +50,4 @@ add_target(01_fractals "" "")
 add_target(02_images "" "")
 add_target(03_tcod "" ${TCOD})
 add_target(04_roamlib "lib/" "chunky;roamlib")
-add_target(05_mesh "lib/" "chunky;${TCOD}")
+add_target(05_mesh "lib/;lib/raygui/src" "chunky;${TCOD}")

@@ -4,3 +4,6 @@
 [submodule "lib/roamlib"]
 	path = lib/roamlib
 	url = https://github.com/darkodraskovic/roamlib
+[submodule "lib/raygui"]
+	path = lib/raygui
+	url = https://github.com/raysan5/raygui

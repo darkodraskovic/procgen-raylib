@@ -4,6 +4,11 @@
 #include "chunky/model.h"
 #include "chunky/scene.h"
 
+// clang-format off
+#define RAYGUI_IMPLEMENTATION
+#include "raygui.h"
+// clang-format on
+
 static Mesh GenMeshCustom(int vertexCount);
 Camera3D camera;
 Vector3 cubePosition = {0.0f, 0.0f, 0.0f};
@@ -22,6 +27,7 @@ void Update() {
   // ?
   UpdateCamera(&camera);
 };
+
 void PostUpdate(){};
 void Draw() {
   /* SetPixel(32, 32, 0xff0000ff); */
@@ -36,6 +42,7 @@ void Draw() {
   DrawGrid(10, 1.0f);
 
   EndMode3D();
+  GuiCheckBox((Rectangle){25, 108, 15, 15}, "FORCE CHECK!", false);
 };
 void PostDraw(){};
 void Close(){};
