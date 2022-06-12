@@ -1,32 +1,30 @@
 #!/bin/bash
 
 TARGET=
-ROOT_DIR=$(pwd)
+EXE_NAME=
+ROOT_DIR=/home/darko/Development/procgen-raylib/
+
 COMPILE_CMD="make"
-
 CONFIGURE=false
-NINJA=false
-
-SLN=procgen2d.sln
+SLN=procgen.sln
+WIN=false
 
 if [ "$OSTYPE" = "msys" ]; then
-    ROOT_DIR=c:/Users/darko/Development/procgen2d/
-else
-    ROOT_DIR=/home/darko/Development/procgen2d/
+    WIN=true
+    ROOT_DIR=c:/Users/darko/Development/procgen-raylib/
+    COMPILE_CMD="MSBuild.exe -target:Build /property:Configuration=Release"
 fi
 
 echo "ROOT_DIR: $ROOT_DIR"
 
-while getopts "cnt:" option; do
+while getopts "ct:" option; do
     case $option in
         c)
             CONFIGURE=true
             ;;
-        n)
-            NINJA=true
-            ;;
         t)
             TARGET=$OPTARG
+            EXE_NAME=./$TARGET
             ;;
     esac
 done
@@ -34,25 +32,22 @@ done
 if [ $CONFIGURE = true ]; then
     cd ${ROOT_DIR}/build
     cmake ..
-fi
 
-if [ $NINJA = true ]; then
-    cd $ROOT_DIR/ninja/
-    cmake -G"Ninja" ..
-    mv compile_commands.json ..
+    if [ $WIN == true ]; then
+        cd $ROOT_DIR/ninja/
+        cmake -G"Ninja" ..
+        mv compile_commands.json ..
+    fi
 fi
 
 if [ -z $TARGET ]; then
     exit 0
 fi
 
-EXE_NAME=./$TARGET
-if [ "$OSTYPE" = "msys" ]; then
-    EXE_NAME=${EXE_NAME}.exe
+if [ $WIN == true ]; then
     if [ $TARGET != $SLN ]; then
         TARGET=${TARGET}.vcxproj
     fi
-    COMPILE_CMD="MSBuild.exe -target:Build /property:Configuration=Release"
 fi
 
 echo "COMPILE_CMD: ${COMPILE_CMD}"
