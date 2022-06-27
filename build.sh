@@ -13,6 +13,8 @@ if [ "$OSTYPE" = "msys" ]; then
     WIN=true
     ROOT_DIR=c:/Users/darko/Development/procgen-raylib/
     COMPILE_CMD="MSBuild.exe -target:Build /property:Configuration=Release"
+else
+    ROOT_DIR=/home/darko/Development/procgen-raylib/
 fi
 
 echo "ROOT_DIR: $ROOT_DIR"
@@ -32,15 +34,16 @@ done
 if [ $CONFIGURE = true ]; then
     cd ${ROOT_DIR}/build
     cmake ..
+    if [ $? != 0 ]; then
+        exit 1
+    fi
 
     if [ $WIN == true ]; then
         cd $ROOT_DIR/ninja/
         cmake -G"Ninja" ..
         mv compile_commands.json ..
     fi
-fi
 
-if [ -z $TARGET ]; then
     exit 0
 fi
 
@@ -56,7 +59,7 @@ echo "EXE_NAME: ${EXE_NAME}"
 cd ${ROOT_DIR}/build
 echo "BUILD: $TARGET"
 $COMPILE_CMD $TARGET
-if [ $? -gt 0 ]; then
+if [ $? != 0 ]; then
     exit 1
 fi
 
